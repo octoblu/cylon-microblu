@@ -1,6 +1,6 @@
 Adaptor = require './adaptor'
 
 module.exports =
-  adaptors: ["microblu-cylon"]
+  adaptors: ['microblu']
   adaptor: (opts) ->
     new Adaptor opts

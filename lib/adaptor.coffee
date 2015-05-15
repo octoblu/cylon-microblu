@@ -26,16 +26,16 @@ class MicrobluAdaptor extends Cylon.Adaptor
     callback()
 
   commands : [
-  'digitalRead'
-  'digitalWrite'
-  'pwmWrite'
-  'servoWrite'
-  'analogRead'
-  'servoWrite'
-  'firmwareName'
-  'i2cWrite'
-  'i2cRead'
-]
+    'digitalRead'
+    'digitalWrite'
+    'pwmWrite'
+    'servoWrite'
+    'analogRead'
+    'servoWrite'
+    'firmwareName'
+    'i2cWrite'
+    'i2cRead'
+  ]
 
 firmwareName: =>
   "microblu v1"
@@ -60,3 +60,6 @@ i2cWrite: (address, cmd, buff, callback) =>
 
 i2cRead: (address, cmd, length, callback) =>
   debug 'i2cWrite', arguments
+
+
+module.exports = MicrobluAdaptor
