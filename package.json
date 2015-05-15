@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/microblu-cylon.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jest"
   },
   "author": "",
   "license": "MIT",
@@ -19,8 +19,16 @@
     "chai": "^2.3.0",
     "coffee-script": "^1.9.2",
     "cylon-gpio": "^0.24.0",
+    "jest-cli": "^0.4.3",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
-  }
+  },
+  "jest": {
+   "scriptPreprocessor": "test/helpers/coffee-preprocessor.js",
+   "testFileExtensions": ["coffee", "js"],
+   "moduleFileExtensions": ["coffee", "js", "json"],
+   "testDirectoryName" : "test",
+   "testPathIgnorePatterns" : ["/node_modules/", "/helpers/"]
+ }
 }
