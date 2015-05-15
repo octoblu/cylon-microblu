@@ -1,7 +1,6 @@
-jest.dontMock '../lib/adaptor'
+jest.autoMockOff()
 describe 'Adaptor', ->
   beforeEach ->
-    # @sut = require '../lib/adaptor.coffee'
+    @sut = require '../lib/adaptor.coffee'
   it 'should exist', ->
-    console.log 'hi'
-    # expect(@sut).to.exist
+    expect(@sut).toBeTruthy()
