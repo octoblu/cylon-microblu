@@ -1,5 +1,5 @@
 Cylon = require 'cylon'
-debug = require('debug')('cylon-microblu')
+debug = require('debug')('microblu:cylon')
 
 MIN_PULSE_WIDTH = 600
 MAX_PULSE_WIDTH = 2500
@@ -37,29 +37,29 @@ class MicrobluAdaptor extends Cylon.Adaptor
     'i2cRead'
   ]
 
-firmwareName: =>
-  "microblu v1"
+  firmwareName: =>
+    "microblu v1"
 
-digitalRead: (pin, callback) =>
-  debug 'digitalRead', arguments
+  digitalRead: (pin, callback) =>
+    debug 'digitalRead', arguments
 
-digitalWrite: (pin, value) =>
-  debug 'digitalRead', arguments
+  digitalWrite: (pin, value) =>
+    debug 'digitalWrite', arguments
 
-analogRead: (pin, callback) =>
-  debug 'analogRead', arguments
+  analogRead: (pin, callback) =>
+    debug 'analogRead', arguments
 
-servoWrite: (pin, value) =>
-  debug 'servoWrite', arguments
+  servoWrite: (pin, value) =>
+    debug 'servoWrite', arguments
 
-pwmWrite: (pinNum, value, servo) =>
-  debug 'pwmWrite', arguments
+  pwmWrite: (pinNum, value, servo) =>
+    debug 'pwmWrite', arguments
 
-i2cWrite: (address, cmd, buff, callback) =>
-  debug 'i2cWrite', arguments
+  i2cWrite: (address, cmd, buff, callback) =>
+    debug 'i2cWrite', arguments
 
-i2cRead: (address, cmd, length, callback) =>
-  debug 'i2cWrite', arguments
+  i2cRead: (address, cmd, length, callback) =>
+    debug 'i2cWrite', arguments
 
 
 module.exports = MicrobluAdaptor
