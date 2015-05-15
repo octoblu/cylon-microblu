@@ -1,0 +1,23 @@
+{
+  "name": "cylon-microblu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/microblu-cylon.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "coffee-script": "^1.9.2",
+    "lodash": "^3.8.0",
+    "meshblu": "^1.22.0"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "coffee-script": "^1.9.2",
+    "mocha": "^2.2.5",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
+  }
+}
