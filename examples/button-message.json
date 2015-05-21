@@ -1,0 +1,8 @@
+{
+  "devices": "c193a415-3cba-460a-812d-8f4302b52f9a",
+  "topic": "digitalRead",
+  "payload": {
+    "pin": 2,
+    "value": 1
+  }
+}

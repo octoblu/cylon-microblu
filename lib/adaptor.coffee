@@ -62,7 +62,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
         pin: pin
     )
 
-    @subscribeOnce 'digitalRead', pin, callback
+    @subscribeToPin 'digitalRead', pin, callback
 
   digitalWrite: (pin, value) =>
     throw notReadyError unless @assertConnected()
@@ -83,7 +83,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
         pin: pin
     )
 
-    @subscribeOnce 'analogRead', pin, callback
+    @subscribeToPin 'analogRead', pin, callback
 
   servoWrite: (pin, value) =>
     throw notReadyError unless @assertConnected()
@@ -114,12 +114,11 @@ class MicrobluAdaptor extends Cylon.Adaptor
 
     true
 
-  subscribeOnce: ( topic, pin, callback=-> ) =>
-    pinCallback = (msg) =>
+  subscribeToPin: ( topic, pin, callback=-> ) =>
+    pinCallback = (msg={}) =>
       return unless msg.topic == topic
-      return unless msg.payload.pin == pin
-      @meshbluConn.removeListener 'message', pinCallback
-      callback null, msg.payload.value
+      return unless msg.payload?.pin == pin
+      callback null, msg.payload?.value
 
     @meshbluConn.on 'message', pinCallback
 

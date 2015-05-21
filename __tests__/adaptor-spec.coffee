@@ -118,8 +118,8 @@ describe 'Adaptor', ->
               pin: 1
               value: 9
 
-        it 'should call the callback with the value from the connection', ->
-          expect(@callback.mock.calls.length).toBe 1
+        it 'should call the callback with the values from the connection', ->
+          expect(@callback.mock.calls.length).toBe 2
 
       describe 'when digitalRead is called and the connection emits data for other pins', ->
         beforeEach ->
