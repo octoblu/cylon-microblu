@@ -1,18 +1,20 @@
 path = require 'path'
 Cylon = require 'cylon'
+_ = require 'lodash'
+
+meshbluJSON = require './meshblu.json'
+microbluConfig = _.extend {}, meshbluJSON, adaptor: 'microblu'
 
 #this stuff lets cylon find modules outside of the local node_modules
-microbluPath = path.join process.cwd(), 'lib/microblu-cylon'
-gpioPath = path.join process.cwd(), 'node_modules/cylon-gpio'
+microbluPath = path.join process.cwd(), '../lib/microblu-cylon'
 Registry = require 'cylon/lib/registry'
 Registry.register microbluPath
-Registry.register gpioPath
 
 microbot = Cylon.robot
   name: 'Microbot'
   connections:
     microblu:
-      adaptor: 'microblu'
+      microbluConfig
   devices:
     led:
       driver: 'led', pin: 13
