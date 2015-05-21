@@ -1,10 +1,15 @@
 Cylon = require 'cylon'
+meshblu = require 'meshblu'
+_ = require 'lodash'
 debug = require('debug')('microblu:cylon')
-
 MIN_PULSE_WIDTH = 600
 MAX_PULSE_WIDTH = 2500
 MAX_PERIOD = 7968
+meshbluDefaults =
+  server: 'meshblu.octoblu.com'
+  port: 443
 
+meshbluProperties = ['server', 'port', 'uuid', 'token']
 
 class MicrobluAdaptor extends Cylon.Adaptor
   constructor: (opts={}) ->
@@ -19,8 +24,14 @@ class MicrobluAdaptor extends Cylon.Adaptor
       'analogRead'
     ]
 
-  connect: (callback) =>
-    callback()
+    @meshbluConfig = _.pick _.defaults(opts, meshbluDefaults), meshbluProperties
+    console.log 'meshbluConfig', @meshbluConfig
+
+  connect: (callback=->) =>
+    @meshbluConn = meshblu.createConnection @meshbluConfig
+    console.log 'meshbluConn', @meshbluConn
+    @meshbluConn.on 'ready', => callback()
+
 
   disconnect: (callback) =>
     callback()
