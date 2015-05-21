@@ -1,24 +1,26 @@
+jest.autoMockOff()
 jest.dontMock '../lib/adaptor'
-
+jest.dontMock 'lodash'
+meshblu = require 'meshblu'
+Adapter = require '../lib/adaptor'
 describe 'Adaptor', ->
   beforeEach ->
-    @Adapter = require '../lib/adaptor'
-    @sut = new @Adapter()
-    @meshblu = require 'meshblu'
+    @sut = new Adapter()
   it 'should exist', ->
     expect(@sut).not.toBeUndefined()
 
   describe 'when constructed with a uuid and token', ->
     beforeEach ->
-      @sut = new @Adapter uuid: 'U1', token: 'T1'
+      @sut = new Adapter uuid: 'U1', token: 'T1'
 
     describe 'when connect is called', ->
 
-      beforeEach (done) ->
-        @sut.connect done
+      beforeEach () ->
+        @sut.connect()
+        meshblu.__emitter.emit 'ready', 'blah'
 
       it 'should call meshblu.createConnection with the provided credentials', ->
-        expect(@meshblu.createConnection.mock.calls[0][0]).toEqual
+        expect(meshblu.createConnection).lastCalledWith
           uuid: 'U1'
           token: 'T1'
           port: 443
@@ -26,7 +28,7 @@ describe 'Adaptor', ->
 
     describe 'when constructed with a uuid, token, server, port, and other stuff', ->
       beforeEach ->
-        @sut = new @Adapter
+        @sut = new Adapter
           uuid: 'U2'
           token: 'T2'
           server: 'whatevs'
@@ -39,10 +41,14 @@ describe 'Adaptor', ->
         beforeEach () ->
           @callback = jest.genMockFunction()
           @sut.connect @callback
+          meshblu.__emitter.emit 'ready'
 
         it 'should call meshblu.createConnection with the provided credentials', ->
-          expect(@meshblu.createConnection.mock.calls[0][0]).toEqual
+          expect(meshblu.createConnection).lastCalledWith
             uuid: 'U2'
             token: 'T2'
             server: 'whatevs'
             port: 80085
+
+        it 'should call the callback', ->
+          expect(@callback).toBeCalled()

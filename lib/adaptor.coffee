@@ -25,11 +25,9 @@ class MicrobluAdaptor extends Cylon.Adaptor
     ]
 
     @meshbluConfig = _.pick _.defaults(opts, meshbluDefaults), meshbluProperties
-    console.log 'meshbluConfig', @meshbluConfig
 
   connect: (callback=->) =>
     @meshbluConn = meshblu.createConnection @meshbluConfig
-    console.log 'meshbluConn', @meshbluConn
     @meshbluConn.on 'ready', => callback()
 
 
