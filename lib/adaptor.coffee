@@ -10,6 +10,7 @@ meshbluDefaults =
   port: 443
 
 meshbluProperties = ['server', 'port', 'uuid', 'token']
+notReadyError = new Error 'meshblu connection is not ready'
 
 class MicrobluAdaptor extends Cylon.Adaptor
   constructor: (opts={}) ->
@@ -27,6 +28,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
     @meshbluConfig = _.pick _.defaults(opts, meshbluDefaults), meshbluProperties
 
   connect: (callback=->) =>
+    callback = _.once callback
     @meshbluConn = meshblu.createConnection @meshbluConfig
     @meshbluConn.on 'ready', => callback()
 
@@ -49,26 +51,64 @@ class MicrobluAdaptor extends Cylon.Adaptor
   firmwareName: =>
     "microblu v1"
 
-  digitalRead: (pin, callback) =>
-    debug 'digitalRead', arguments
+  digitalRead: (pin, callback=->) =>
+    return unless @assertConnected(callback) == true
+    @meshbluConn.message
+      topic: 'digitalRead'
+      payload:
+        pin: pin
+
+    @subscribeOnce 'digitalRead', pin, callback
 
   digitalWrite: (pin, value) =>
-    debug 'digitalWrite', arguments
+    throw notReadyError unless @assertConnected()
+    @meshbluConn.message
+      topic: 'digitalWrite'
+      payload:
+        pin: pin
+        value: value
 
-  analogRead: (pin, callback) =>
-    debug 'analogRead', arguments
+  analogRead: (pin, callback=->) =>
+    return unless @assertConnected(callback) == true
+    @meshbluConn.message
+      topic: 'analogRead'
+      payload:
+        pin: pin
+
+    @subscribeOnce 'analogRead', pin, callback
 
   servoWrite: (pin, value) =>
-    debug 'servoWrite', arguments
+    throw notReadyError unless @assertConnected()
+    @meshbluConn.message
+      topic: 'servoWrite'
+      payload:
+        pin: pin
+        value: value
 
-  pwmWrite: (pinNum, value, servo) =>
-    debug 'pwmWrite', arguments
+  pwmWrite: (pin, value, servo) =>
+    throw notReadyError unless @assertConnected()
 
-  i2cWrite: (address, cmd, buff, callback) =>
-    debug 'i2cWrite', arguments
+  i2cWrite: (address, cmd, buff, callback=->) =>
+    return unless @assertConnected(callback) == true
 
-  i2cRead: (address, cmd, length, callback) =>
-    debug 'i2cWrite', arguments
+  i2cRead: (address, cmd, length, callback=->) =>
+    return unless @assertConnected(callback) == true
+
+  assertConnected: (callback=->) =>
+    if !@meshbluConn?
+      callback notReadyError
+      return notReadyError
+
+    true
+
+  subscribeOnce: ( topic, pin, callback=-> ) =>
+    pinCallback = (msg) =>
+      return unless msg.topic == topic
+      return unless msg.payload.pin == pin
+      @meshbluConn.removeListener 'message', pinCallback
+      callback null, msg.payload.value
+
+    @meshbluConn.on 'message', pinCallback
 
 
 module.exports = MicrobluAdaptor

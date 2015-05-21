@@ -18,6 +18,6 @@ microbot = Cylon.robot
       driver: 'led', pin: 13
   work: (bot) ->
     every (1).second(), ->
-      bot.led.toggle()    
+      bot.led.toggle()
 
 microbot.start()

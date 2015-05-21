@@ -11,6 +11,8 @@
   "dependencies": {
     "coffee-script": "^1.9.2",
     "cylon": "^1.0.0",
+    "cylon-gpio": "^0.24.0",
+    "cylon-i2c": "^0.21.1",
     "debug": "^2.2.0",
     "lodash": "^3.8.0",
     "meshblu": "^1.22.0"
@@ -18,7 +20,6 @@
   "devDependencies": {
     "chai": "^2.3.0",
     "coffee-script": "^1.9.2",
-    "cylon-gpio": "^0.24.0",
     "jest-cli": "^0.4.3",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
