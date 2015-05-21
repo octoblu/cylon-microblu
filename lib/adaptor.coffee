@@ -30,7 +30,9 @@ class MicrobluAdaptor extends Cylon.Adaptor
   connect: (callback=->) =>
     callback = _.once callback
     @meshbluConn = meshblu.createConnection @meshbluConfig
-    @meshbluConn.on 'ready', => callback()
+    @meshbluConn.on 'ready', =>
+      console.log 'ready!'
+      callback()
 
 
   disconnect: (callback) =>
