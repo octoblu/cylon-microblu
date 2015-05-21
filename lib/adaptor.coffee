@@ -20,6 +20,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
     @analogPins = []
     @interval = opts.interval || 0.01
     @i2c = null
+    @devices = opts.devices || '*'
     @events = [
       'digitalRead'
       'analogRead'
@@ -31,7 +32,6 @@ class MicrobluAdaptor extends Cylon.Adaptor
     callback = _.once callback
     @meshbluConn = meshblu.createConnection @meshbluConfig
     @meshbluConn.on 'ready', =>
-      console.log 'ready!'
       callback()
 
 
@@ -55,46 +55,57 @@ class MicrobluAdaptor extends Cylon.Adaptor
 
   digitalRead: (pin, callback=->) =>
     return unless @assertConnected(callback) == true
-    @meshbluConn.message
+    @meshbluConn.message(
+      @devices,
       topic: 'digitalRead'
       payload:
         pin: pin
+    )
 
     @subscribeOnce 'digitalRead', pin, callback
 
   digitalWrite: (pin, value) =>
     throw notReadyError unless @assertConnected()
-    @meshbluConn.message
+    @meshbluConn.message(
+      @devices,
       topic: 'digitalWrite'
       payload:
         pin: pin
         value: value
+    )
 
   analogRead: (pin, callback=->) =>
     return unless @assertConnected(callback) == true
-    @meshbluConn.message
+    @meshbluConn.message(
+      @devices,
       topic: 'analogRead'
       payload:
         pin: pin
+    )
 
     @subscribeOnce 'analogRead', pin, callback
 
   servoWrite: (pin, value) =>
     throw notReadyError unless @assertConnected()
-    @meshbluConn.message
+    @meshbluConn.message(
+      @devices,
       topic: 'servoWrite'
       payload:
         pin: pin
         value: value
+    )
 
   pwmWrite: (pin, value, servo) =>
     throw notReadyError unless @assertConnected()
+    debug "I can't use this...yet"
 
   i2cWrite: (address, cmd, buff, callback=->) =>
     return unless @assertConnected(callback) == true
+    debug "I can't use this...yet"
 
   i2cRead: (address, cmd, length, callback=->) =>
     return unless @assertConnected(callback) == true
+    debug "I can't use this...yet"
 
   assertConnected: (callback=->) =>
     if !@meshbluConn?

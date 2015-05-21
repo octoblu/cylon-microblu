@@ -1,5 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 connection = new EventEmitter();
+connection.setMaxListeners(99);
 connection.message = jest.genMockFunction();
 
 var Meshblu = {

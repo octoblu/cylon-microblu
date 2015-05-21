@@ -46,14 +46,14 @@ describe 'Cylon', ->
           expect(@messageMock.calls.length).toBe 2
 
         it 'should have turned the led on at first', ->
-          expect(@messageMock.calls[0][0]).toEqual
+          expect(@messageMock.calls[0][1]).toEqual
              topic: 'digitalWrite'
              payload:
                pin: 13
                value: 1
 
         it 'should have then turned the led off', ->
-          expect(@messageMock.calls[1][0]).toEqual
+          expect(@messageMock.calls[1][1]).toEqual
             topic: 'digitalWrite'
             payload:
               value: 0
