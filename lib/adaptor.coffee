@@ -65,7 +65,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
     @subscribeToPin 'digitalRead', pin, callback
 
   digitalWrite: (pin, value) =>
-    throw notReadyError unless @assertConnected()
+    throw notReadyError unless @assertConnected() == true
     @meshbluConn.message(
       @devices,
       topic: 'digitalWrite'
@@ -86,7 +86,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
     @subscribeToPin 'analogRead', pin, callback
 
   servoWrite: (pin, value) =>
-    throw notReadyError unless @assertConnected()
+    throw notReadyError unless @assertConnected() == true
     @meshbluConn.message(
       @devices,
       topic: 'servoWrite'
@@ -96,7 +96,7 @@ class MicrobluAdaptor extends Cylon.Adaptor
     )
 
   pwmWrite: (pin, value, servo) =>
-    throw notReadyError unless @assertConnected()
+    throw notReadyError unless @assertConnected() == true
     debug "I can't use this...yet"
 
   i2cWrite: (address, cmd, buff, callback=->) =>
